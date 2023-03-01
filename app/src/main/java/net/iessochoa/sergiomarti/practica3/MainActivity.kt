@@ -4,11 +4,14 @@ import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import net.iessochoa.sergiomarti.practica3.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    val model:MainActivityViewModel by viewModels()
 
     private var num:Int = 0
 
@@ -20,11 +23,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.tvNumber.text = num.toString()
-
+        binding.tvNumber.text = model.count.toString()
         binding.btAddOne.setOnClickListener() {
-            num++
-            binding.tvNumber.text = num.toString()
+            model.addOne()
+            binding.tvNumber.text = model.count.toString()
         }
 
         Log.i(TAG, "onCreate")
