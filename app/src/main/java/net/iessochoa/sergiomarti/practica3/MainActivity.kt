@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import net.iessochoa.sergiomarti.practica3.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -12,8 +13,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     val model:MainActivityViewModel by viewModels()
-
-    private var num:Int = 0
 
     private val TAG = "mostrar log"
 
@@ -23,10 +22,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.tvNumber.text = model.count.toString()
+        //binding.tvNumber.text = model.count.toString()
+        model.getCount().observe(this, Observer<Int> {
+                cont->binding.tvNumber.text=cont.toString()
+        })
+        model.getAsterisk().observe(this, Observer<String> {
+            cont->binding.tvAsterisk.text=cont.toString()
+        })
         binding.btAddOne.setOnClickListener() {
             model.addOne()
-            binding.tvNumber.text = model.count.toString()
         }
 
         Log.i(TAG, "onCreate")
